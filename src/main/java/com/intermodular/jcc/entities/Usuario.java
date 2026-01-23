@@ -1,0 +1,102 @@
+package com.intermodular.jcc.entities;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "usuarios")
+public class Usuario {
+
+    @Id
+    private String dni;
+
+    private String nombre;
+    private String apellidos;
+    private String nfcToken; // Ya no usamos @Column(unique...), se configura en Mongo, pero funcionará igual
+    private Rol rol;
+
+    // Relación: Guardamos una referencia al departamento
+    @DBRef
+    private Departamento departamento;
+
+    private String curso;
+    private boolean vinculadoWebFamilia;
+    private boolean expulsado;
+
+    public Usuario() {
+    }
+
+    // Getters y Setters (Ajustados a String id)
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getNfcToken() {
+        return nfcToken;
+    }
+
+    public void setNfcToken(String nfcToken) {
+        this.nfcToken = nfcToken;
+    }
+
+    // ... Resto de Getters y Setters iguales ...
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
+    }
+
+    public boolean isVinculadoWebFamilia() {
+        return vinculadoWebFamilia;
+    }
+
+    public void setVinculadoWebFamilia(boolean vinculadoWebFamilia) {
+        this.vinculadoWebFamilia = vinculadoWebFamilia;
+    }
+
+    public boolean isExpulsado() {
+        return expulsado;
+    }
+
+    public void setExpulsado(boolean expulsado) {
+        this.expulsado = expulsado;
+    }
+}
