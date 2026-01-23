@@ -12,10 +12,9 @@ public class Usuario {
 
     private String nombre;
     private String apellidos;
-    private String nfcToken; // Ya no usamos @Column(unique...), se configura en Mongo, pero funcionará igual
+    private String nfcToken; 
     private Rol rol;
 
-    // Relación: Guardamos una referencia al departamento
     @DBRef
     private Departamento departamento;
 
@@ -26,7 +25,6 @@ public class Usuario {
     public Usuario() {
     }
 
-    // Getters y Setters (Ajustados a String id)
     public String getDni() {
         return dni;
     }
@@ -43,7 +41,6 @@ public class Usuario {
         this.nfcToken = nfcToken;
     }
 
-    // ... Resto de Getters y Setters iguales ...
     public String getNombre() {
         return nombre;
     }

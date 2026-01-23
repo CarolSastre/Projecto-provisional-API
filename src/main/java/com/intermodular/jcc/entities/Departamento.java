@@ -7,14 +7,29 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Departamento {
 
     @Id
-    private String id; // En Mongo el ID es String
+    private String id;
     private String nombre;
 
-    public Departamento() {}
-    public Departamento(String nombre) { this.nombre = nombre; }
+    public Departamento() {
+    }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public Departamento(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }

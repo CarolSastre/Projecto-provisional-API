@@ -14,7 +14,6 @@ public class Horario {
     private LocalTime horaInicio;
     private LocalTime horaFin;
 
-    // Constructores, Getters y Setters igual que antes
     public Horario() {
     }
 
@@ -25,7 +24,6 @@ public class Horario {
         this.horaFin = horaFin;
     }
 
-    // ... getters y setters ...
     public String getId() {
         return id;
     }

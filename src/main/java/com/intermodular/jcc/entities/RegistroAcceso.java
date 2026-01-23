@@ -27,7 +27,6 @@ public class RegistroAcceso {
         this.usuario = usuario;
     }
 
-    // Getters y Setters
     public String getId() {
         return id;
     }
@@ -36,7 +35,6 @@ public class RegistroAcceso {
         this.id = id;
     }
 
-    // ... resto igual ...
     public LocalDateTime getFechaHora() {
         return fechaHora;
     }

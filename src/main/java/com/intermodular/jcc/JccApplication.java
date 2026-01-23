@@ -17,27 +17,21 @@ public class JccApplication {
         SpringApplication.run(JccApplication.class, args);
     }
 
-    // ESTE MÉTODO SE EJECUTA AL ARRANCAR Y RELLENA TU MONGODB
     @Bean
     CommandLineRunner initData(UsuarioRepository usuarioRepo,
                                DepartamentoRepository deptRepo, // Necesitas crear este repo (te lo pongo abajo)
                                HorarioRepository horarioRepo) {
         return args -> {
-            System.out.println("⏳ INICIANDO CARGA DE DATOS DE PRUEBA EN MONGODB...");
+            System.out.println("INICIANDO CARGA DE DATOS DE PRUEBA EN MONGODB...");
 
-            // 1. LIMPIAR BASE DE DATOS (Para empezar de cero siempre)
             usuarioRepo.deleteAll();
             deptRepo.deleteAll();
             horarioRepo.deleteAll();
 
-            // 2. CREAR DEPARTAMENTOS
             Departamento depInfo = new Departamento("Informática");
             Departamento depLengua = new Departamento("Lengua");
             deptRepo.saveAll(Arrays.asList(depInfo, depLengua));
 
-            // 3. CREAR USUARIOS
-            
-            // A) PROFESOR (Vinculado a Informática)
             Usuario profe = new Usuario();
             profe.setNombre("Profesor");
             profe.setApellidos("Xavier");
@@ -45,10 +39,9 @@ public class JccApplication {
             profe.setNfcToken("PROFE1");
             profe.setExpulsado(false);
             profe.setVinculadoWebFamilia(true); // Irrelevante para profes, pero lo ponemos
-            profe.setDepartamento(depInfo); // <--- DBRef
+            profe.setDepartamento(depInfo); 
             usuarioRepo.save(profe);
 
-            // B) ALUMNO BUENO (2DAM)
             Usuario alumno = new Usuario();
             alumno.setNombre("Peter");
             alumno.setApellidos("Parker");
@@ -59,7 +52,6 @@ public class JccApplication {
             alumno.setVinculadoWebFamilia(true);
             usuarioRepo.save(alumno);
 
-            // C) ALUMNO SIN PAPELES (Rebota por Web Familia)
             Usuario alumnoSinPapeles = new Usuario();
             alumnoSinPapeles.setNombre("Harry");
             alumnoSinPapeles.setApellidos("Osborn");
@@ -77,8 +69,8 @@ public class JccApplication {
             Horario horarioHoy = new Horario("2DAM", "VIERNES", LocalTime.MIN, LocalTime.MAX);
             horarioRepo.save(horarioHoy);
 
-            System.out.println("✅ DATOS CARGADOS CORRECTAMENTE EN MONGODB");
-            System.out.println("👉 Prueba con el token: ALUMNO1");
+            System.out.println("DATOS CARGADOS CORRECTAMENTE EN MONGODB");
+            System.out.println("Prueba con el token: ALUMNO1");
         };
     }
 }
