@@ -12,7 +12,7 @@ public class Usuario {
 
     private String nombre;
     private String apellidos;
-    private String nfcToken; 
+    private String nfcToken;
     private Rol rol;
 
     @DBRef
@@ -21,6 +21,9 @@ public class Usuario {
     private String curso;
     private boolean vinculadoWebFamilia;
     private boolean expulsado;
+
+    private String username;
+    private String password;
 
     public Usuario() {
     }
@@ -95,5 +98,21 @@ public class Usuario {
 
     public void setExpulsado(boolean expulsado) {
         this.expulsado = expulsado;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

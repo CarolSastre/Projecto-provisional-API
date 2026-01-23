@@ -6,10 +6,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalTime;
 import java.util.Arrays;
 
+// SIN EXCLUDES NI COSAS RARAS, SOLO ESTO:
 @SpringBootApplication
 public class JccApplication {
 
@@ -19,29 +21,37 @@ public class JccApplication {
 
     @Bean
     CommandLineRunner initData(UsuarioRepository usuarioRepo,
-                               DepartamentoRepository deptRepo, // Necesitas crear este repo (te lo pongo abajo)
-                               HorarioRepository horarioRepo) {
+                               DepartamentoRepository deptRepo,
+                               HorarioRepository horarioRepo,
+                               PasswordEncoder encoder) { 
         return args -> {
-            System.out.println("INICIANDO CARGA DE DATOS DE PRUEBA EN MONGODB...");
+            System.out.println("⏳ INICIANDO CARGA DE DATOS...");
 
             usuarioRepo.deleteAll();
             deptRepo.deleteAll();
             horarioRepo.deleteAll();
 
+            // -- CREAR DEPARTAMENTOS --
             Departamento depInfo = new Departamento("Informática");
             Departamento depLengua = new Departamento("Lengua");
             deptRepo.saveAll(Arrays.asList(depInfo, depLengua));
 
+            // -- CREAR USUARIOS --
+            
+            // 1. PROFESOR (Login: profe / 1234)
             Usuario profe = new Usuario();
             profe.setNombre("Profesor");
             profe.setApellidos("Xavier");
             profe.setRol(Rol.PROFESOR);
             profe.setNfcToken("PROFE1");
             profe.setExpulsado(false);
-            profe.setVinculadoWebFamilia(true); // Irrelevante para profes, pero lo ponemos
-            profe.setDepartamento(depInfo); 
+            profe.setVinculadoWebFamilia(true);
+            profe.setDepartamento(depInfo);
+            profe.setUsername("profe");
+            profe.setPassword(encoder.encode("1234")); 
             usuarioRepo.save(profe);
 
+            // 2. ALUMNO (Login: peter / spiderman)
             Usuario alumno = new Usuario();
             alumno.setNombre("Peter");
             alumno.setApellidos("Parker");
@@ -50,8 +60,11 @@ public class JccApplication {
             alumno.setCurso("2DAM");
             alumno.setExpulsado(false);
             alumno.setVinculadoWebFamilia(true);
+            alumno.setUsername("peter");
+            alumno.setPassword(encoder.encode("spiderman")); 
             usuarioRepo.save(alumno);
 
+            // 3. ALUMNO SIN PAPELES (Login: harry / duende)
             Usuario alumnoSinPapeles = new Usuario();
             alumnoSinPapeles.setNombre("Harry");
             alumnoSinPapeles.setApellidos("Osborn");
@@ -59,18 +72,16 @@ public class JccApplication {
             alumnoSinPapeles.setNfcToken("ALUMNO2");
             alumnoSinPapeles.setCurso("2DAM");
             alumnoSinPapeles.setExpulsado(false);
-            alumnoSinPapeles.setVinculadoWebFamilia(false); // <--- ERROR AQUÍ
+            alumnoSinPapeles.setVinculadoWebFamilia(false);
+            alumnoSinPapeles.setUsername("harry");
+            alumnoSinPapeles.setPassword(encoder.encode("duende"));
             usuarioRepo.save(alumnoSinPapeles);
 
-            // 4. CREAR HORARIOS (Para probar ahora mismo)
-            // Creamos un horario para 2DAM que dure TODO EL DÍA (00:00 a 23:59)
-            // Así cuando pruebes siempre te dejará entrar por horario.
-            // OJO: Cambia "VIERNES" por el día que sea hoy cuando pruebes.
+            // -- CREAR HORARIO DE PRUEBA --
             Horario horarioHoy = new Horario("2DAM", "VIERNES", LocalTime.MIN, LocalTime.MAX);
             horarioRepo.save(horarioHoy);
 
-            System.out.println("DATOS CARGADOS CORRECTAMENTE EN MONGODB");
-            System.out.println("Prueba con el token: ALUMNO1");
+            System.out.println("✅ DATOS CARGADOS Y APP LISTA");
         };
     }
 }

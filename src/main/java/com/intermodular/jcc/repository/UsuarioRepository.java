@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface UsuarioRepository extends MongoRepository<Usuario, String> {
 
     Optional<Usuario> findByNfcToken(String nfcToken);
+    
+    Optional<Usuario> findByUsername(String username);
 }

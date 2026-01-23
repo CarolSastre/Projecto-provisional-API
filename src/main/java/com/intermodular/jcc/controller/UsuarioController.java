@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuarios") // Ruta usuarios
+@RequestMapping("/api/usuarios")
 @CrossOrigin(origins = "*")
 public class UsuarioController {
 
@@ -16,19 +16,17 @@ public class UsuarioController {
     private UsuarioDAO usuarioDAO;
 
     @GetMapping
-    public List<Usuario> obtenerTodos() {
+    public List<Usuario> obtenerUsuarios() {
         return usuarioDAO.listarTodos();
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario nuevoUsuario) {
-        Usuario usuarioGuardado = usuarioDAO.guardarUsuario(nuevoUsuario);
-        return ResponseEntity.ok(usuarioGuardado);
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
+        return ResponseEntity.ok(usuarioDAO.guardarUsuario(usuario));
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> borrarUsuario(@PathVariable String id) {
+    public void borrarUsuario(@PathVariable String id) {
         usuarioDAO.borrarUsuario(id);
-        return ResponseEntity.noContent().build();
     }
 }
