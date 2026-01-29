@@ -56,7 +56,7 @@ public class AccesoController {
         Usuario usuario = usuarioOpt.get();
 
         if (usuario.getRol() == Rol.PROFESOR) {
-            if (usuario.isExpulsado()) {
+            if (usuario.isBaja()) {
                 guardarLog(fechaCompleta, false, "Profesor Baja", usuario);
                 respuesta.put("permitido", false);
                 respuesta.put("mensaje", "ACCESO DENEGADO: Contacte Dirección");
@@ -68,17 +68,10 @@ public class AccesoController {
             return ResponseEntity.ok(respuesta);
         }
 
-        if (usuario.isExpulsado()) {
+        if (usuario.isBaja()) {
             guardarLog(fechaCompleta, false, "Alumno Expulsado", usuario);
             respuesta.put("permitido", false);
             respuesta.put("mensaje", "ACCESO DENEGADO: Sancionado");
-            return ResponseEntity.ok(respuesta);
-        }
-
-        if (!usuario.isVinculadoWebFamilia()) {
-            guardarLog(fechaCompleta, false, "Falta Web Familia", usuario);
-            respuesta.put("permitido", false);
-            respuesta.put("mensaje", "ACCESO DENEGADO: Falta Web Familia");
             return ResponseEntity.ok(respuesta);
         }
 
