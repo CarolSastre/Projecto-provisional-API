@@ -17,13 +17,14 @@ public class Usuario implements UserDetails {
     @Id
     private String id;
 
-    private String dni;           
+    private String dni;
     private String nombre;
     private String apellidos;
     private String nfcToken;
-    private LocalDate fechaNacimiento; 
-    private String gmail;           
+    private LocalDate fechaNacimiento;
+    private String gmail;
     private Rol rol;
+    private String fotoPerfil;
 
     @DBRef
     private Departamento departamento;
@@ -123,6 +124,14 @@ public class Usuario implements UserDetails {
 
     public void setBaja(boolean baja) {
         this.baja = baja;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     // --- MÉTODOS DE SPRING SECURITY (UserDetails) ---
