@@ -24,9 +24,9 @@ public class JccApplication {
 
     @Bean
     CommandLineRunner initData(UsuarioRepository usuarioRepo,
-                               DepartamentoRepository deptRepo,
-                               HorarioRepository horarioRepo,
-                               PasswordEncoder encoder) { 
+            DepartamentoRepository deptRepo,
+            HorarioRepository horarioRepo,
+            PasswordEncoder encoder) {
         return args -> {
             System.out.println("ACTUALIZANDO DATOS");
 
@@ -40,33 +40,32 @@ public class JccApplication {
             deptRepo.saveAll(Arrays.asList(depInfo, depLengua));
 
             // -- USUARIOS (Ahora con DNI, Gmail, Fecha Nacimiento y Baja) --
-            
             // 1. PROFESOR
             Usuario profe = new Usuario();
             profe.setNombre("Profesor");
             profe.setApellidos("Xavier");
-            profe.setDni("11111111A"); 
+            profe.setDni("11111111A");
             profe.setGmail("profe@instituto.com");
             profe.setFechaNacimiento(LocalDate.of(1980, 1, 1));
             profe.setRol(Rol.PROFESOR);
             profe.setNfcToken("PROFE1");
             profe.setBaja(false); // No esta de baja
             profe.setDepartamento(depInfo);
-            profe.setPassword(encoder.encode("1234")); 
+            profe.setPassword(encoder.encode("1234"));
             usuarioRepo.save(profe);
 
             // 2. ALUMNO
             Usuario alumno = new Usuario();
             alumno.setNombre("Peter");
             alumno.setApellidos("Parker");
-            alumno.setDni("22222222B"); 
+            alumno.setDni("22222222B");
             alumno.setGmail("spiderman@gmail.com");
             alumno.setFechaNacimiento(LocalDate.of(2005, 8, 10));
             alumno.setRol(Rol.ALUMNO);
             alumno.setNfcToken("ALUMNO1");
             alumno.setCurso("2DAM");
             alumno.setBaja(false);
-            alumno.setPassword(encoder.encode("spiderman")); 
+            alumno.setPassword(encoder.encode("spiderman"));
             usuarioRepo.save(alumno);
 
             // -- HORARIO --
