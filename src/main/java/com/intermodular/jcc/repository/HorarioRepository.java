@@ -12,4 +12,5 @@ public interface HorarioRepository extends MongoRepository<Horario, String> {
     // Buscamos donde: curso sea ?0, dia sea ?1, inicio sea <= hora y fin sea >= hora
     @Query("{ 'curso': ?0, 'diaSemana': ?1, 'horaInicio': { $lte: ?2 }, 'horaFin': { $gte: ?2 } }")
     List<Horario> encontrarHorarioActual(String curso, String dia, LocalTime horaActual);
+    List<Horario> findByCurso(String curso);
 }
