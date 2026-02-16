@@ -16,15 +16,27 @@ public class UsuarioDAO {
     public Optional<Usuario> buscarPorNfc(String token) {
         return usuarioRepository.findByNfcToken(token);
     }
-    
+
+    // --- NUEVO MÉTODO PARA LOGIN ---
+    public Optional<Usuario> buscarPorDni(String dni) {
+        // Opción A: Si tu repositorio ya tiene findByDni
+        // return usuarioRepository.findByDni(dni);
+
+        // Opción B (Más segura si no quieres tocar el repositorio ahora):
+        // Trae todos y filtra (menos eficiente pero funciona seguro con lo que tienes)
+        return usuarioRepository.findAll().stream()
+                .filter(u -> u.getDni() != null && u.getDni().equalsIgnoreCase(dni))
+                .findFirst();
+    }
+
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
     }
-    
+
     public Usuario guardarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
-    
+
     public void borrarUsuario(String id) {
         usuarioRepository.deleteById(id);
     }
