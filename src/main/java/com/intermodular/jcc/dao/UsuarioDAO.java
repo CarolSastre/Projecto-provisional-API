@@ -17,9 +17,16 @@ public class UsuarioDAO {
         return usuarioRepository.findByNfcToken(token);
     }
 
-    public Usuario buscarPorNfcToken(String token) {
-        if (token == null || token.trim().isEmpty()) return null;
-        return usuarioRepository.findByNfcToken(token).orElse(null);
+    // --- NUEVO MÉTODO PARA LOGIN ---
+    public Optional<Usuario> buscarPorDni(String dni) {
+        // Opción A: Si tu repositorio ya tiene findByDni
+        // return usuarioRepository.findByDni(dni);
+
+        // Opción B (Más segura si no quieres tocar el repositorio ahora):
+        // Trae todos y filtra (menos eficiente pero funciona seguro con lo que tienes)
+        return usuarioRepository.findAll().stream()
+                .filter(u -> u.getDni() != null && u.getDni().equalsIgnoreCase(dni))
+                .findFirst();
     }
 
     public List<Usuario> listarTodos() {
@@ -32,33 +39,5 @@ public class UsuarioDAO {
 
     public void borrarUsuario(String id) {
         usuarioRepository.deleteById(id);
-    }
-
-    public Usuario buscarPorEmail(String email) {
-        return usuarioRepository.findByGmail(email).orElse(null);
-    }
-    
-    public Usuario buscarPorId(String id) {
-        if (id == null || id.trim().isEmpty()) return null;
-        return usuarioRepository.findById(id).orElse(null);
-    }
-
-    public Usuario buscarPorUsername(String username) {
-        if (username == null) return null;
-        String u = username.trim();
-        if (u.isEmpty()) return null;
-        // En nuestra app, el "username" realmente es el DNI.
-        // Si llega un correo (contiene '@'), buscar por gmail.
-        if (u.contains("@")) {
-            return usuarioRepository.findByGmail(u).orElse(null);
-        }
-        return usuarioRepository.findByDni(u.toUpperCase()).orElse(null);
-    }
-
-    public Usuario buscarPorDni(String dni) {
-        if (dni == null) return null;
-        String d = dni.trim();
-        if (d.isEmpty()) return null;
-        return usuarioRepository.findByDni(d.toUpperCase()).orElse(null);
     }
 }
