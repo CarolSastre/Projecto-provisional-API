@@ -17,20 +17,27 @@ public class Usuario implements UserDetails {
     @Id
     private String id;
 
-    private String dni;           
+    private String dni;
     private String nombre;
     private String apellidos;
     private String nfcToken;
-    private LocalDate fechaNacimiento; 
-    private String gmail;           
+    private LocalDate fechaNacimiento;
+    private String gmail;
     private Rol rol;
 
     @DBRef
     private Departamento departamento;
 
     private String curso;
-    private boolean baja;            // Antes expulsado
-    private String password;         // Contraseña
+    private boolean baja; // Antes expulsado
+    private String password; // Contraseña
+    private String telefono;
+    private String direccion;
+    private String codigoPostal;
+    private String ciudad;
+    private String pais;
+    private String fotoPerfil;
+    private boolean verificado; // Indica si el usuario ha verificado su cuenta
 
     // --- CONSTRUCTOR VACÍO ---
     public Usuario() {
@@ -125,19 +132,66 @@ public class Usuario implements UserDetails {
         this.baja = baja;
     }
 
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
+    public boolean isVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(boolean verificado) {
+        this.verificado = verificado;
+    }
+
     // --- MÉTODOS DE SPRING SECURITY (UserDetails) ---
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + rol.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     // ¡IMPORTANTE! Spring Security usa esto para el login.
@@ -145,6 +199,11 @@ public class Usuario implements UserDetails {
     @Override
     public String getUsername() {
         return dni;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
@@ -166,4 +225,8 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return !baja;
     } // Si está de baja, no puede entrar
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
