@@ -167,6 +167,7 @@ public class UsuarioController {
         if (owner != null) {
             // Si es el mismo usuario, idempotente
             Usuario targetCheck = null;
+<<<<<<< HEAD
             if (userId != null) {
                 targetCheck = usuarioDAO.buscarPorId(userId);
             }
@@ -176,6 +177,11 @@ public class UsuarioController {
             if (targetCheck == null && gmail != null) {
                 targetCheck = usuarioDAO.buscarPorEmail(gmail);
             }
+=======
+            if (userId != null) targetCheck = usuarioDAO.buscarPorId(userId);
+            if (targetCheck == null && dni != null) targetCheck = usuarioDAO.buscarPorDni(dni);
+            if (targetCheck == null && gmail != null) targetCheck = usuarioDAO.buscarPorEmail(gmail);
+>>>>>>> origin/main
             if (targetCheck == null || !owner.getId().equals(targetCheck.getId())) {
                 return ResponseEntity.status(409).body(Map.of("error", "Este NFC ya está asignado a otro usuario."));
             }
@@ -185,6 +191,7 @@ public class UsuarioController {
 
         // Resolver usuario destino
         Usuario usuario = null;
+<<<<<<< HEAD
         if (userId != null) {
             usuario = usuarioDAO.buscarPorId(userId);
         }
@@ -194,6 +201,11 @@ public class UsuarioController {
         if (usuario == null && gmail != null) {
             usuario = usuarioDAO.buscarPorEmail(gmail);
         }
+=======
+        if (userId != null) usuario = usuarioDAO.buscarPorId(userId);
+        if (usuario == null && dni != null) usuario = usuarioDAO.buscarPorDni(dni);
+        if (usuario == null && gmail != null) usuario = usuarioDAO.buscarPorEmail(gmail);
+>>>>>>> origin/main
         if (usuario == null) {
             return ResponseEntity.status(404).body(Map.of("error", "Usuario no encontrado"));
         }
@@ -274,7 +286,11 @@ public class UsuarioController {
     // Listar registros de entrada/salida para un usuario
     @GetMapping("/registros")
     public ResponseEntity<?> listarRegistros(@RequestParam("userId") String userId,
+<<<<<<< HEAD
             @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
+=======
+                                             @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
+>>>>>>> origin/main
         if (userId == null || userId.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("error", "userId requerido"));
         }
@@ -289,7 +305,11 @@ public class UsuarioController {
     // Listar registros de entrada/salida de todo el centro en un mes concreto
     @GetMapping("/registros-mes")
     public ResponseEntity<?> listarRegistrosMes(@RequestParam("year") int year,
+<<<<<<< HEAD
             @RequestParam("month") int month) {
+=======
+                                                @RequestParam("month") int month) {
+>>>>>>> origin/main
         // month: 1-12
         if (month < 1 || month > 12) {
             return ResponseEntity.badRequest().body(Map.of("error", "month debe estar entre 1 y 12"));
@@ -311,9 +331,13 @@ public class UsuarioController {
         java.util.Map<String, com.intermodular.jcc.entities.Rol> cache = new java.util.HashMap<>();
         for (Map reg : list) {
             Object userIdObj = reg.get("userId");
+<<<<<<< HEAD
             if (userIdObj == null) {
                 continue;
             }
+=======
+            if (userIdObj == null) continue;
+>>>>>>> origin/main
             String uid = String.valueOf(userIdObj);
             com.intermodular.jcc.entities.Rol rol = cache.get(uid);
             if (rol == null && !cache.containsKey(uid)) {
@@ -420,6 +444,7 @@ public class UsuarioController {
         }
         // Campos editables básicos
         Object dniObj = body.get("dni");
+<<<<<<< HEAD
         if (dniObj instanceof String) {
             usuario.setDni(((String) dniObj).trim().toUpperCase());
         }
@@ -454,8 +479,31 @@ public class UsuarioController {
         if (verifObj instanceof Boolean) {
             usuario.setVerificado((Boolean) verifObj);
         }
+=======
+        if (dniObj instanceof String) usuario.setDni(((String) dniObj).trim().toUpperCase());
+        Object nombreObj = body.get("nombre");
+        if (nombreObj instanceof String) usuario.setNombre(((String) nombreObj).trim());
+        Object apellidosObj = body.get("apellidos");
+        if (apellidosObj instanceof String) usuario.setApellidos(((String) apellidosObj).trim());
+        Object gmailObj = body.get("gmail");
+        if (gmailObj instanceof String) usuario.setGmail(((String) gmailObj).trim().toLowerCase());
+        Object fotoObj = body.get("fotoPerfil");
+        if (fotoObj instanceof String) usuario.setFotoPerfil(((String) fotoObj));
+        Object rolObj = body.get("rol");
+        if (rolObj instanceof String) {
+            try { usuario.setRol(Rol.valueOf(((String) rolObj).trim().toUpperCase())); } catch (Exception ignored) {}
+        }
+        Object bajaObj = body.get("baja");
+        if (bajaObj instanceof Boolean) usuario.setBaja((Boolean) bajaObj);
+        Object verifObj = body.get("verificado");
+        if (verifObj instanceof Boolean) usuario.setVerificado((Boolean) verifObj);
+>>>>>>> origin/main
 
         Usuario saved = usuarioDAO.guardarUsuario(usuario);
         return ResponseEntity.ok(Map.of("ok", true, "usuario", saved));
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main
