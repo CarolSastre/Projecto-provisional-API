@@ -45,14 +45,6 @@ public class WebSecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-<<<<<<< HEAD
-                // Endpoints públicos
-                .requestMatchers("/api/acceso/validar").permitAll()
-                .requestMatchers("/token").permitAll()
-                // El resto privado
-                .anyRequest().authenticated()
-                )
-=======
                         // Endpoints públicos
                         .requestMatchers("/api/acceso/validar").permitAll()
                         .requestMatchers("/token").permitAll()
@@ -63,7 +55,6 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/eventos/**").authenticated()
                         // El resto privado
                         .anyRequest().authenticated())
->>>>>>> origin/main
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
@@ -96,9 +87,6 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-<<<<<<< HEAD
-}
-=======
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -113,4 +101,3 @@ public class WebSecurityConfig {
         return source;
     }
 }
->>>>>>> origin/main
