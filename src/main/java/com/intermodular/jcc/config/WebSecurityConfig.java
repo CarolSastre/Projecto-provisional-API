@@ -41,11 +41,11 @@ public class WebSecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Endpoints públicos
-                        .requestMatchers("/api/acceso/validar").permitAll()
-                        .requestMatchers("/token").permitAll()
-                        // El resto privado
-                        .anyRequest().authenticated()
+                // Endpoints públicos
+                .requestMatchers("/api/acceso/validar").permitAll()
+                .requestMatchers("/token").permitAll()
+                // El resto privado
+                .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -69,7 +69,7 @@ public class WebSecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsServiceImpl userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
-        
+
         authProvider.setPasswordEncoder(passwordEncoder);
         return new ProviderManager(authProvider);
     }
